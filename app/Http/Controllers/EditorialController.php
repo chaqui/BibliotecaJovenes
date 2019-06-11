@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Autor;
+use App\Editorial;
 
-class AutorController extends Controller
+
+class EditorialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,9 @@ class AutorController extends Controller
      */
     public function index()
     {
-        $autor = Autor::select('id','nombre')->get();
+        $autor = Editorial::select('id','nombre')->get();
         if(count($autor)==0){
-            return response("no hay ningun autor", 204);
+            return response("no hay ningun editorial", 204);
         }
         return response()->json($autor, 200);
     }
@@ -32,15 +33,15 @@ class AutorController extends Controller
         $request->validate([
             'nombre'=>'required'
         ]);
-        $autorExiste = Autor::where("nombre","=",$request->get("nombre"))->paginate(1);
+        $autorExiste = Editorial::where("nombre","=",$request->get("nombre"))->paginate(1);
         if(count($autorExiste) == 0){
-            $autor = new Autor();
-            $autor->nombre = $request->get("nombre");
-            $autor->save();
+            $editorial = new Editorial();
+            $editorial->nombre = $request->get("nombre");
+            $editorial->save();
             return response("guardado   correctamente",200);
         }
         else{
-            return response("el autor existe",202);
+            return response("el editorial existe",202);
         }
 
     }
@@ -53,8 +54,8 @@ class AutorController extends Controller
      */
     public function show($id)
     {
-        $autor = Autor::findOrFail($id);
-        return response()->json($autor, 200 );
+        $editorial = Editorial::findOrFail($id);
+        return response()->json($editorial, 200 );
     }
 
     /**
@@ -66,12 +67,13 @@ class AutorController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'nombre'=>'required'
         ]);
-        $autor = Autor::findOrFail($id);
-        $autor->nombre = $request->get("nombre");
-        $autor->save();
+        $editorial = Editorial::findOrFail($id);
+        $editorial->nombre = $request->get("nombre");
+        $editorial->save();
         return response("actualizado correctamente",200);
     }
 
@@ -83,20 +85,15 @@ class AutorController extends Controller
      */
     public function destroy($id)
     {
-        $autor = Autor::findOrFail($id);
-        $autor->delete();
+        $editorial = Editorial::findOrFail($id);
+        $editorial->delete();
         return response("eliminado correctamente",200);
     }
-    /**
-     * Obtiene todos los libros del autor
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function obtenerLibros($id)
     {
-        $autor = Autor::findOrFail($id);
-        $libros= $autor->obtenerLibros;
+        $editorial = Editorial::findOrFail($id);
+        $libros= $editorial->obtenerLibros;
         return response()->json($libros, 200 );
     }
 }

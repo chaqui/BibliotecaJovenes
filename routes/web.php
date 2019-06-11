@@ -16,3 +16,9 @@
  */
 Route::resource('/autor', 'AutorController');
 Route::get('/autor/{autor}/libros', 'AutorController@obtenerLibros');
+
+/**
+ * Rutas para el editorial
+ */
+Route::resource('/editorial', 'EditorialController');
+Route::get('/editorial/{editorial}/libros', 'EditorialController@obtenerLibros');
