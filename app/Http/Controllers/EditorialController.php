@@ -90,10 +90,20 @@ class EditorialController extends Controller
         return response("eliminado correctamente",200);
     }
 
+    /**
+     * obtener los libros del editorial
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
     public function obtenerLibros($id)
     {
         $editorial = Editorial::findOrFail($id);
-        $libros= $editorial->obtenerLibros;
-        return response()->json($libros, 200 );
+        $libros= $editorial->libros;
+        if(count($libros)>0){
+            return response()->json($libros, 200 );
+        }
+        return response("no hay libros",202);
+       
     }
 }

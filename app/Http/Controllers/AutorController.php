@@ -95,8 +95,8 @@ class AutorController extends Controller
      */
     public function obtenerLibros($id)
     {
-        $autor = Autor::findOrFail($id);
-        $libros= $autor->obtenerLibros;
+        $autor = Autor::find($id);
+        $libros= $autor->libros;
         return response()->json($libros, 200 );
     }
 }
