@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/**
+ * rutas para el autor
+ */
+Route::resource('/autor', 'AutorController');
+Route::get('/autor/{autor}/libros', 'AutorController@obtenerLibros');
