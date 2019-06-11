@@ -28,8 +28,8 @@ class Libro extends Model
         return $this->belongsTo(Editorial::class);
     }
 
-    public function Autor()
+    public function autores()
     {
-        return $this->belongsTo(Autor::class);
+        return $this->belongsToMany(Autor::class,"libro_de_autor");
     }
 }
