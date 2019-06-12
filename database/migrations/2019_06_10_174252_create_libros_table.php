@@ -21,7 +21,6 @@ class CreateLibrosTable extends Migration
             $table->integer("anio");
             $table->boolean("estado");
             $table->unsignedInteger("editorial_id");
-            $table->unsignedInteger("autor_id");
             $table->softDeletes();
             $table->timestamps();
         });
