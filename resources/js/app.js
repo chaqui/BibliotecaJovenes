@@ -12,4 +12,27 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Example');
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+/**
+*	Here goes all magic
+*/
+class App extends React.Component {
+  	render() {
+	    return (
+				<div class="card" >
+					<div class="card-body">
+					<h1 class="card-title">Hello World! </h1>
+					<p>Funciona react con Laravel</p>
+					</div>
+				</div>
+	    );
+  }
+}
+
+ReactDOM.render(
+	<App />,
+	document.getElementById('app')
+);
