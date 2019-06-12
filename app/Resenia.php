@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class resenia extends Model
+class Resenia extends Model
 {
     use SoftDeletes;
 }
