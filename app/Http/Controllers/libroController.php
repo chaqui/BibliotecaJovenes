@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Libro;
+use Dotenv\Validator;
+use Mockery\Exception;
+use App\Resenia;
+
 class libroController extends Controller
 {
     /**
@@ -28,8 +32,13 @@ class libroController extends Controller
      */
     public function store(Request $request)
     {
+        try
+        {
+        //obtener la data y convertirla en Json
         $data =json_decode($request->getContent(),true);
         $elementos =    $data[0];
+
+        //almacenar la data 
         $libro = new Libro();
         $libro->nombre = $elementos["nombre"];
         $libro->descripcion = $elementos["descripcion"];
@@ -42,6 +51,10 @@ class libroController extends Controller
             $libro->autores()->attach($autor["id"]);
         }
     }
+    catch(Exception $e){
+        return response($e->getMessage(), 400);
+    }
+    }
 
     /**
      * Display the specified resource.
@@ -51,7 +64,21 @@ class libroController extends Controller
      */
     public function show($id)
     {
-        //
+        try
+        {       
+            $libro = Libro::where('id',$id)->first();
+            if(!$libro){
+                return response("no existe",404);
+            }
+            else
+            {
+                return response()->json($libro,200);
+            }
+        }
+        catch(Exception $e){
+            return response($e->getMessage(), 400);
+        }
+
     }
 
     /**
@@ -63,7 +90,34 @@ class libroController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try
+        {       
+            //obtener la data
+            $data =json_decode($request->getContent(),true);
+            $elementos =    $data[0];
+
+
+            //actualizar el libro
+            $libro = Libro::findOrFail($id);
+            $libro->nombre = $elementos["nombre"];
+            $libro->descripcion = $elementos["descripcion"];
+            $libro->cantidad =$elementos["cantidad"];
+            $libro->anio = $elementos["anio"];
+            $libro->estado = $elementos["estado"];
+            $libro->editorial_id =$elementos["editorial_id"];
+            $libro->save();
+            foreach ($elementos["autores"] as $autor) {
+                $autor =$libro->autores->where("id",$autor["id"])->first();
+                if(!$autor)
+                {
+                    $libro->autores()->attach($autor["id"]);
+                }
+            }
+            return response("actualizacion correcta", 200);
+        }
+        catch(Exception $e){
+            return response($e->getMessage(), 400);
+        }
     }
 
     /**
@@ -74,8 +128,53 @@ class libroController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+        Resenia::where("idLibro",$id)->delete();
+        Imagen::where("idLibro",$id)->delete();
+        Libro::findOrFail($id)->delete();
+        return response("eliminacion correcta",200);
+        }
+        catch(Exception $e){
+            return response($e->getMessage(), 400);
+        }
     }
 
+    /**
+     * Selecciona los autores del libro
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response json
+     */
+    public function obtenerAutores($id){
+        try{
+            $libro = Libro::findOrFail(2);
+            $autores = $libro->autores;
+            return response()->json($autores, 200);
+        }
+        catch (Exception $e){
+            return response($e->getMessage(), 400);
+        }
+       
+    }
+
+    /**
+     * Selecciona el editorial del libro
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response json
+     */
+    public function editorial($id){
+        try{
+            $libro = Libro::findOrFail(2);
+            $editorial =  $libro->editorial;
+            return response()->json($editorial, 200);
+        }
+        catch (Exception $e){
+            return response($e->getMessage(), 400);
+        }
+
+    }
+
+  
     
 }
