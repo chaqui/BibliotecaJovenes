@@ -6,6 +6,7 @@ aplicación para gestionar la Biblioteca de la Sociedad de Jovenes Seguidores de
 
 ```
 npm install
+npm run dev 
 php artisan serve
 
 
