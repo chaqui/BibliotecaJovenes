@@ -30,3 +30,8 @@ Route::resource('/editorial', 'EditorialController');
 Route::get('/editorial/{editorial}/libros', 'EditorialController@obtenerLibros')->name("editorial.libros");
 
 Route::resource('/libro', 'libroController');
+Route::get('/libro/{libro}/autores', 'libroController@obtenerAutores')->name('libro.autores');
+Route::get('/libro/{libro}/editorial', 'libroController@editorial')->name('libro.editorial');
+Route::get('/libro/{libro}/resenias', 'libroController@obtenerResenias')->name('libro.resenias');
+
+Route::resource('/libro/{libro}/resenia', 'ReseniaController');
