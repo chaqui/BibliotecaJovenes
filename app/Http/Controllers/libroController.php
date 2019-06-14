@@ -175,6 +175,25 @@ class libroController extends Controller
 
     }
 
+    /**
+     * Selecciona el editorial del libro
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response json
+     */
+    public function obtenerResenias($id){
+        try{
+            $libro = Libro::findOrFail(2);
+            $resenias =  $libro->resenias;
+            return response()->json($resenias, 200);
+        }
+        catch (Exception $e){
+            return response($e->getMessage(), 400);
+        }
+
+    }
+
+
   
     
 }
